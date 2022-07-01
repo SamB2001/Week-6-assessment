@@ -12,11 +12,11 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public/index.html'))
 })
 
-//css endpoint
+
 app.get('/css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/styles.css'))
 })
-//js endpoint
+
 app.get('/js', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.js'))
 })
@@ -28,7 +28,6 @@ var rollbar = new Rollbar({
   captureUnhandledRejections: true,
 })
 
-// record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
 
 try {
