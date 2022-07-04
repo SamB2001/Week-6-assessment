@@ -26,10 +26,21 @@ test('Clicking draw button displays bots', async () => {
     expect(displayedBots).toBeTruthy()
 })
 
-test('Add to Duo adds to player duo div', async () => {
-    const addbots = await driver.findElement(By.id('choices'))
-    await addbots.findElement(By.xpath("//bot-card outline[@class='bot-btn']")).click()
-    const playerBots = await driver.findElement(By.xpath('//player-duo[@class="container"]')).isDisplayed
-    expect(playerBots).toBeTruthy()
+test('"Add to Duo" button displays the player duo section', async () => {
+    await driver.findElement(By.id('draw')).click()
+    await driver.findElement(By.css('.bot-btn')).click()
+    const playerDuoSection = await driver.findElement(By.id('player-duo'))
+    const displayed = await playerDuoSection.isDisplayed()
+    expect(displayed).toBe(true)
 })
+
+//I was also having trouble getting this one to work
+//I had trouble with the xpath but it seems like it wasn't needed
+//was also unaware at the time you can find element by css
+// test('Add to Duo adds to player duo div', async () => {
+//     const addbots = await driver.findElement(By.id('choices'))
+//     await addbots.findElement(By.xpath("//bot-card outline[@class='bot-btn']")).click()
+//     const playerBots = await driver.findElement(By.xpath('//player-duo[@class="container"]')).isDisplayed
+//     expect(playerBots).toBeTruthy()
+// })
 

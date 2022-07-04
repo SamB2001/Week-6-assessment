@@ -6,15 +6,16 @@ const {shuffleArray} = require('./utils')
 
 app.use(express.json())
 
-app.use(express.static('public'))
+// app.use(express.static('public'))
 
 app.get('/', function(req, res) {
+  rollbar.log('A user is on the site')
     res.sendFile(path.join(__dirname, 'public/index.html'))
 })
 
-
-app.get('/css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/styles.css'))
+app.get('/styles', (req, res) => {
+  rollbar.log('Css styles active on site')
+    res.sendFile(path.join(__dirname, 'public/index.css'))
 })
 
 app.get('/js', (req, res) => {
@@ -36,28 +37,12 @@ try {
     rollbar.info('catch try error')
   }
 
-try {
-    nonExistentFunction2();
-  } catch (error) {
-    rollbar.warning('Warning Warning Warning')
-  }
-
-try {
-    nonExistentFunction3();
-  } catch (error) {
-    rollbar.error('Error Error Error')
-  }
-
-try {
-    nonExistentFunction4();
-  } catch (error) {
-    rollbar.critical('explosion')
-  }
 
 app.get('/api/robots', (req, res) => {
     try {
         res.status(200).send(botsArr)
     } catch (error) {
+      rollbar.error('Frontend not able to access /api/robots')
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
     }
@@ -70,6 +55,7 @@ app.get('/api/robots/five', (req, res) => {
         let compDuo = shuffled.slice(6, 8)
         res.status(200).send({choices, compDuo})
     } catch (error) {
+      rollbar.critical('Duel functionality not working, error in /api/robots/five')
         console.log('ERROR GETTING FIVE BOTS', error)
         res.sendStatus(400)
     }
